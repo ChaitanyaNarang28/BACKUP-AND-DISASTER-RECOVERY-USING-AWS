@@ -26,13 +26,7 @@ This repository provides a comprehensive AWS backup policy for S3 buckets. It in
 
 ## Setup Instructions
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/yourusername/aws-s3-backup-policy.git
-cd aws-s3-backup-policy
-```
-
-### 2. IAM Role Creation
+### 1. IAM Role Creation
 - Use the provided `iam-role-policy.json` to create an IAM role with the necessary permissions.
 - Command:
   ```bash
@@ -40,14 +34,14 @@ cd aws-s3-backup-policy
   aws iam attach-role-policy --role-name S3BackupRole --policy-arn arn:aws:iam::aws:policy/AWSBackupServiceRolePolicyForBackup
   ```
 
-### 3. Configure Backup Plan
+### 2. Configure Backup Plan
 - Define the backup plan in `backup-plan.json`.
 - Apply the backup plan using AWS CLI:
   ```bash
   aws backup create-backup-plan --backup-plan file://backup-plan.json
   ```
 
-### 4. Assign Backup Vault and Jobs
+### 3. Assign Backup Vault and Jobs
 - Use `backup-vault.json` to create a backup vault.
 - Command:
   ```bash
@@ -55,20 +49,20 @@ cd aws-s3-backup-policy
   aws backup create-backup-job --backup-vault-name MyBackupVault --resource-arn arn:aws:s3:::your-bucket-name
   ```
 
-### 5. Scheduled Backups
+### 4. Scheduled Backups
 - Use the `schedule.json` file to configure scheduled backups.
 - Command:
   ```bash
   aws events put-rule --schedule-expression "cron(0 12 * * ? *)" --name DailyBackupRule
   ```
 
-### 6. Restore Data
+### 5. Restore Data
 - Initiate restore from a specific backup using:
   ```bash
   aws backup start-restore-job --recovery-point-arn arn:aws:backup:region:account-id:recovery-point-id --metadata file://restore-metadata.json --iam-role-arn arn:aws:iam::account-id:role/S3BackupRole
   ```
 
-### 7. Disaster Recovery Strategy
+### 6. Disaster Recovery Strategy
 - **Cross-Region Backups**: Enable cross-region backups to replicate data across multiple AWS regions for added resilience.
   ```bash
   aws backup update-backup-vault --backup-vault-name MyBackupVault --region target-region
@@ -97,11 +91,6 @@ aws-s3-backup-policy/
 3. Commit your changes (`git commit -m "Add feature"`).
 4. Push to the branch (`git push origin feature-name`).
 5. Create a pull request.
-
----
-
-## License
-This project is licensed under the [MIT License](LICENSE).
 
 ---
 
